@@ -11,7 +11,7 @@ namespace Math {
 
     template <class T>
     union Vec<2, T> {
-        T Data[2];
+        T Data[2] = {T(0), T(0)};
         struct {
             T X, Y;
         };
@@ -57,7 +57,7 @@ namespace Math {
 
     template <class T>
     union Vec<3, T> {
-        T Data[3];
+        T Data[3] = {T(0), T(0), T(0)};
         struct {
             T X, Y, Z;
         };
@@ -114,7 +114,7 @@ namespace Math {
 
     template <class V>
     union Vec<4, V> {
-        V Data[4];
+        V Data[4] = {T(0), T(0), T(0), T(0)};
         struct {
             V X, Y, Z, T;
         };
@@ -169,7 +169,7 @@ namespace Math {
     template <size_t D, class T>
     union Vec {
         T Data[D];
-        constexpr Vec() = default;
+        constexpr Vec() noexcept: Data{} { for (auto i = 0u; i<D; ++i) Data[i] = T(0); }
         template <class ...U>
         constexpr explicit Vec(U&& ... args) noexcept
                 :Data{std::forward<U>(args)...} { }

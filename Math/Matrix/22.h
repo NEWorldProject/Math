@@ -52,6 +52,15 @@ namespace Math {
         constexpr Mat operator*(const U& r) const noexcept { return {_Stg[0]*r, _Stg[1]*r}; }
         template <class U>
         constexpr Mat operator/(const U& r) const noexcept { return {_Stg[0]/r, _Stg[1]/r}; }
+        constexpr Mat operator*(const Mat& r) const noexcept {
+            return {
+                    _Stg[0][0]*r(0, 0)+_Stg[0][1]*r(1, 0),
+                    _Stg[0][0]*r(0, 1)+_Stg[0][1]*r(1, 1),
+                    _Stg[1][0]*r(0, 0)+_Stg[1][1]*r(1, 0),
+                    _Stg[1][0]*r(0, 1)+_Stg[1][1]*r(1, 1)
+            };
+        }
+        Mat& operator*=(const Mat& r) noexcept { return (*this = *this * r); }
     private:
         RowType _Stg[2];
     };
