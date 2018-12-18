@@ -17,12 +17,12 @@ namespace Math {
         template <class Q, class W, class E, class R,
                   class A, class S, class D, class F,
                   class Z, class X, class C, class V>
-        constexpr Mat(const Q& m11, const W& m12, const E& m13, const R& m14,
-                const A& m21, const S& m22, const D& m23, const F& m24,
-                const Z& m31, const X& m32, const C& m33, const V& m34) noexcept
-                :_Stg{{static_cast<T>(m11), static_cast<T>(m12), static_cast<T>(m13), static_cast<T>(m14)},
-                {static_cast<T>(m21), static_cast<T>(m22), static_cast<T>(m23), static_cast<T>(m24)},
-                {static_cast<T>(m31), static_cast<T>(m32), static_cast<T>(m33), static_cast<T>(m34)}} { }
+        constexpr Mat(Q&& m11, W&& m12, E&& m13, R&& m14,
+                A&& m21, S&& m22, D&& m23, F&& m24,
+                Z&& m31, X&& m32, C&& m33, V&& m34) noexcept
+                :_Stg{{std::forward<Q>(m11), std::forward<W>(m12), std::forward<E>(m13), std::forward<R>(m14)},
+                {std::forward<A>(m21), std::forward<S>(m22), std::forward<D>(m23), std::forward<F>(m24)},
+                {std::forward<Z>(m31), std::forward<X>(m32), std::forward<C>(m33), std::forward<V>(m34)}} { }
 
         RowType& operator[](int idx) noexcept { return _Stg[idx]; }
         const RowType& operator[](int idx) const noexcept { return _Stg[idx]; }

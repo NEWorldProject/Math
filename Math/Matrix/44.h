@@ -18,14 +18,14 @@ namespace Math {
                   class A, class S, class D, class F,
                   class Z, class X, class C, class V,
                   class Y, class U, class I, class O>
-        constexpr Mat(const Q& m11, const W& m12, const E& m13, const R& m14,
-                const A& m21, const S& m22, const D& m23, const F& m24,
-                const Z& m31, const X& m32, const C& m33, const V& m34,
-                const T& m41, const Y& m42, const I& m43, const O& m44) noexcept
-                :_Stg{{static_cast<T>(m11), static_cast<T>(m12), static_cast<T>(m13), static_cast<T>(m14)},
-                {static_cast<T>(m21), static_cast<T>(m22), static_cast<T>(m23), static_cast<T>(m24)},
-                {static_cast<T>(m31), static_cast<T>(m32), static_cast<T>(m33), static_cast<T>(m34)},
-                {static_cast<T>(m41), static_cast<T>(m42), static_cast<T>(m43), static_cast<T>(m44)}} { }
+        constexpr Mat(Q&& m11, W&& m12, E&& m13, R&& m14,
+                A&& m21, S&& m22, D&& m23, F&& m24,
+                Z&& m31, X&& m32, C&& m33, V&& m34,
+                T&& m41, Y&& m42, I&& m43, O&& m44) noexcept
+                :_Stg{{std::forward<Q>(m11), std::forward<W>(m12), std::forward<E>(m13), std::forward<R>(m14)},
+                {std::forward<A>(m21), std::forward<S>(m22), std::forward<D>(m23), std::forward<F>(m24)},
+                {std::forward<Z>(m31), std::forward<X>(m32), std::forward<C>(m33), std::forward<V>(m34)},
+                {std::forward<Y>(m41), std::forward<U>(m42), std::forward<I>(m43), std::forward<O>(m44)}} { }
 
         RowType& operator[](int idx) noexcept { return _Stg[idx]; }
         const RowType& operator[](int idx) const noexcept { return _Stg[idx]; }
@@ -93,7 +93,7 @@ namespace Math {
                     _Stg[3][0]*r(0, 3)+_Stg[3][1]*r(1, 3)+_Stg[3][2]*r(2, 3)+_Stg[3][3]*r(3, 3)
             };
         }
-        Mat& operator*=(const Mat& r) noexcept { return (*this = *this * r); }
+        Mat& operator*=(const Mat& r) noexcept { return (*this = *this*r); }
     private:
         RowType _Stg[4];
     };

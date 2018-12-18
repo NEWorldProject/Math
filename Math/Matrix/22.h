@@ -15,8 +15,8 @@ namespace Math {
         constexpr Mat(const Vec2<Q>& m1, const Vec2<W>& m2) noexcept
                 : _Stg{RowType(m1), RowType(m2)} { }
         template <class Q, class W, class E, class R>
-        constexpr Mat(const Q& m11, const W& m12, const E& m21, const R& m22) noexcept
-                :_Stg{{static_cast<T>(m11), static_cast<T>(m12)}, {static_cast<T>(m21), static_cast<T>(m22)}} { }
+        constexpr Mat(Q&& m11, W&& m12, E&& m21, R&& m22) noexcept
+                :_Stg{{std::forward<Q>(m11), std::forward<W>(m12)}, {std::forward<E>(m21), std::forward<R>(m22)}} { }
 
         RowType& operator[](int idx) noexcept { return _Stg[idx]; }
         const RowType& operator[](int idx) const noexcept { return _Stg[idx]; }
