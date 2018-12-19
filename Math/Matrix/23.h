@@ -17,7 +17,7 @@ namespace Math {
         template <class Q, class W, class E, class A, class S, class D>
         constexpr Mat(Q&& m11, W&& m12, E&& m13, A&& m21, S&& m22, D&& m23) noexcept
                 :_Stg{{std::forward<Q>(m11), std::forward<W>(m12), std::forward<E>(m13)},
-                        {std::forward<A>(m21), std::forward<S>(m22), std::forward<D>(m23)}} { }
+                {std::forward<A>(m21), std::forward<S>(m22), std::forward<D>(m23)}} { }
 
         RowType& operator[](int idx) noexcept { return _Stg[idx]; }
         const RowType& operator[](int idx) const noexcept { return _Stg[idx]; }
@@ -53,6 +53,46 @@ namespace Math {
         constexpr Mat operator*(const U& r) const noexcept { return {_Stg[0]*r, _Stg[1]*r}; }
         template <class U>
         constexpr Mat operator/(const U& r) const noexcept { return {_Stg[0]/r, _Stg[1]/r}; }
+        constexpr auto operator*(const Mat<T, 3, 2>& r) const noexcept {
+            return Mat<T, 2, 2> {
+                    _Stg[0][0]*r(0, 0)+_Stg[0][1]*r(1, 0)+_Stg[0][2]*r(2, 0),
+                    _Stg[0][0]*r(0, 1)+_Stg[0][1]*r(1, 1)+_Stg[0][2]*r(2, 1),
+                    _Stg[1][0]*r(0, 0)+_Stg[1][1]*r(1, 0)+_Stg[1][2]*r(2, 0),
+                    _Stg[1][0]*r(0, 1)+_Stg[1][1]*r(1, 1)+_Stg[1][2]*r(2, 1)
+            };
+        }
+        constexpr auto operator*(const Mat<T, 3, 3>& r) const noexcept {
+            return Mat {
+                    _Stg[0][0]*r(0, 0)+_Stg[0][1]*r(1, 0)+_Stg[0][2]*r(2, 0),
+                    _Stg[0][0]*r(0, 1)+_Stg[0][1]*r(1, 1)+_Stg[0][2]*r(2, 1),
+                    _Stg[0][0]*r(0, 2)+_Stg[0][1]*r(1, 2)+_Stg[0][2]*r(2, 2),
+                    _Stg[1][0]*r(0, 0)+_Stg[1][1]*r(1, 0)+_Stg[1][2]*r(2, 0),
+                    _Stg[1][0]*r(0, 1)+_Stg[1][1]*r(1, 1)+_Stg[1][2]*r(2, 1),
+                    _Stg[1][0]*r(0, 2)+_Stg[1][1]*r(1, 2)+_Stg[1][2]*r(2, 2)
+            };
+        }
+        constexpr auto operator*(const Mat<T, 3, 4>& r) const noexcept {
+            return Mat<T, 2, 4> {
+                    _Stg[0][0]*r(0, 0)+_Stg[0][1]*r(1, 0)+_Stg[0][2]*r(2, 0),
+                    _Stg[0][0]*r(0, 1)+_Stg[0][1]*r(1, 1)+_Stg[0][2]*r(2, 1),
+                    _Stg[0][0]*r(0, 2)+_Stg[0][1]*r(1, 2)+_Stg[0][2]*r(2, 2),
+                    _Stg[0][0]*r(0, 3)+_Stg[0][1]*r(1, 3)+_Stg[0][2]*r(2, 3),
+                    _Stg[1][0]*r(0, 0)+_Stg[1][1]*r(1, 0)+_Stg[1][2]*r(2, 0),
+                    _Stg[1][0]*r(0, 1)+_Stg[1][1]*r(1, 1)+_Stg[1][2]*r(2, 1),
+                    _Stg[1][0]*r(0, 2)+_Stg[1][1]*r(1, 2)+_Stg[1][2]*r(2, 2),
+                    _Stg[1][0]*r(0, 3)+_Stg[1][1]*r(1, 3)+_Stg[1][2]*r(2, 3)
+            };
+        }
+        template <int Cr, class = std::enable_if_t<(Cr > 4)>>
+        constexpr auto operator*(const Mat<T, 3, Cr>& r) const noexcept {
+            Mat<T, 2, Cr> ret{};
+            for (auto j = 0u; j<Cr; ++j) {
+                ret(0, j) += _Stg[0][0]*r(0, j)+_Stg[0][1]*r(1, j)+_Stg[0][2]*r(2, j);
+                ret(1, j) += _Stg[1][0]*r(0, j)+_Stg[1][1]*r(1, j)+_Stg[1][2]*r(2, j);
+            }
+            return ret;
+        }
+        Mat& operator*=(const Mat<T, 3, 3>& r) noexcept { return (*this = *this*r); }
     private:
         RowType _Stg[2];
     };

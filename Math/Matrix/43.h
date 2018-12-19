@@ -73,6 +73,66 @@ namespace Math {
         constexpr Mat operator*(const U& r) const noexcept { return {_Stg[0]*r, _Stg[1]*r, _Stg[2]*r, _Stg[3]*r}; }
         template <class U>
         constexpr Mat operator/(const U& r) const noexcept { return {_Stg[0]/r, _Stg[1]/r, _Stg[2]/r, _Stg[3]/r}; }
+        constexpr auto operator*(const Mat<T, 3, 2>& r) const noexcept {
+            return Mat<T, 4, 2> {
+                    _Stg[0][0]*r(0, 0)+_Stg[0][1]*r(1, 0)+_Stg[0][2]*r(2, 0),
+                    _Stg[0][0]*r(0, 1)+_Stg[0][1]*r(1, 1)+_Stg[0][2]*r(2, 1),
+                    _Stg[1][0]*r(0, 0)+_Stg[1][1]*r(1, 0)+_Stg[1][2]*r(2, 0),
+                    _Stg[1][0]*r(0, 1)+_Stg[1][1]*r(1, 1)+_Stg[1][2]*r(2, 1),
+                    _Stg[2][0]*r(0, 0)+_Stg[2][1]*r(1, 0)+_Stg[2][2]*r(2, 0),
+                    _Stg[2][0]*r(0, 1)+_Stg[2][1]*r(1, 1)+_Stg[2][2]*r(2, 1),
+                    _Stg[3][0]*r(0, 0)+_Stg[3][1]*r(1, 0)+_Stg[3][2]*r(2, 0),
+                    _Stg[3][0]*r(0, 1)+_Stg[3][1]*r(1, 1)+_Stg[3][2]*r(2, 1)
+            };
+        }
+        constexpr Mat operator*(const Mat& r) const noexcept {
+            return {
+                    _Stg[0][0]*r(0, 0)+_Stg[0][1]*r(1, 0)+_Stg[0][2]*r(2, 0),
+                    _Stg[0][0]*r(0, 1)+_Stg[0][1]*r(1, 1)+_Stg[0][2]*r(2, 1),
+                    _Stg[0][0]*r(0, 2)+_Stg[0][1]*r(1, 2)+_Stg[0][2]*r(2, 2),
+                    _Stg[1][0]*r(0, 0)+_Stg[1][1]*r(1, 0)+_Stg[1][2]*r(2, 0),
+                    _Stg[1][0]*r(0, 1)+_Stg[1][1]*r(1, 1)+_Stg[1][2]*r(2, 1),
+                    _Stg[1][0]*r(0, 2)+_Stg[1][1]*r(1, 2)+_Stg[1][2]*r(2, 2),
+                    _Stg[2][0]*r(0, 0)+_Stg[2][1]*r(1, 0)+_Stg[2][2]*r(2, 0),
+                    _Stg[2][0]*r(0, 1)+_Stg[2][1]*r(1, 1)+_Stg[2][2]*r(2, 1),
+                    _Stg[2][0]*r(0, 2)+_Stg[2][1]*r(1, 2)+_Stg[2][2]*r(2, 2),
+                    _Stg[3][0]*r(0, 0)+_Stg[3][1]*r(1, 0)+_Stg[3][2]*r(2, 0),
+                    _Stg[3][0]*r(0, 1)+_Stg[3][1]*r(1, 1)+_Stg[3][2]*r(2, 1),
+                    _Stg[3][0]*r(0, 2)+_Stg[3][1]*r(1, 2)+_Stg[3][2]*r(2, 2)
+            };
+        }
+        constexpr auto operator*(const Mat<T, 3, 4>& r) const noexcept {
+            return Mat<T, 4, 4> {
+                    _Stg[0][0]*r(0, 0)+_Stg[0][1]*r(1, 0)+_Stg[0][2]*r(2, 0),
+                    _Stg[0][0]*r(0, 1)+_Stg[0][1]*r(1, 1)+_Stg[0][2]*r(2, 1),
+                    _Stg[0][0]*r(0, 2)+_Stg[0][1]*r(1, 2)+_Stg[0][2]*r(2, 2),
+                    _Stg[0][0]*r(0, 3)+_Stg[0][1]*r(1, 3)+_Stg[0][2]*r(2, 3),
+                    _Stg[1][0]*r(0, 0)+_Stg[1][1]*r(1, 0)+_Stg[1][2]*r(2, 0),
+                    _Stg[1][0]*r(0, 1)+_Stg[1][1]*r(1, 1)+_Stg[1][2]*r(2, 1),
+                    _Stg[1][0]*r(0, 2)+_Stg[1][1]*r(1, 2)+_Stg[1][2]*r(2, 2),
+                    _Stg[1][0]*r(0, 3)+_Stg[1][1]*r(1, 3)+_Stg[1][2]*r(2, 3),
+                    _Stg[2][0]*r(0, 0)+_Stg[2][1]*r(1, 0)+_Stg[2][2]*r(2, 0),
+                    _Stg[2][0]*r(0, 1)+_Stg[2][1]*r(1, 1)+_Stg[2][2]*r(2, 1),
+                    _Stg[2][0]*r(0, 2)+_Stg[2][1]*r(1, 2)+_Stg[2][2]*r(2, 2),
+                    _Stg[2][0]*r(0, 3)+_Stg[2][1]*r(1, 3)+_Stg[2][2]*r(2, 3),
+                    _Stg[3][0]*r(0, 0)+_Stg[3][1]*r(1, 0)+_Stg[3][2]*r(2, 0),
+                    _Stg[3][0]*r(0, 1)+_Stg[3][1]*r(1, 1)+_Stg[3][2]*r(2, 1),
+                    _Stg[3][0]*r(0, 2)+_Stg[3][1]*r(1, 2)+_Stg[3][2]*r(2, 2),
+                    _Stg[3][0]*r(0, 3)+_Stg[3][1]*r(1, 3)+_Stg[3][2]*r(2, 3)
+            };
+        }
+        template <int Cr, class = std::enable_if_t<(Cr > 4)>>
+        constexpr auto operator*(const Mat<T, 3, Cr>& r) const noexcept {
+            Mat<T, 4, Cr> ret{};
+            for (auto j = 0u; j<Cr; ++j) {
+                ret(0, j) += _Stg[0][0]*r(0, j)+_Stg[0][1]*r(1, j)+_Stg[0][2]*r(2, j);
+                ret(1, j) += _Stg[1][0]*r(0, j)+_Stg[1][1]*r(1, j)+_Stg[1][2]*r(2, j);
+                ret(2, j) += _Stg[2][0]*r(0, j)+_Stg[2][1]*r(1, j)+_Stg[2][2]*r(2, j);
+                ret(3, j) += _Stg[3][0]*r(0, j)+_Stg[3][1]*r(1, j)+_Stg[3][2]*r(2, j);
+            }
+            return ret;
+        }
+        Mat& operator*=(const Mat& r) noexcept { return (*this = *this * r); }
     private:
         RowType _Stg[4];
     };

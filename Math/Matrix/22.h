@@ -60,7 +60,38 @@ namespace Math {
                     _Stg[1][0]*r(0, 1)+_Stg[1][1]*r(1, 1)
             };
         }
-        Mat& operator*=(const Mat& r) noexcept { return (*this = *this * r); }
+        constexpr auto operator*(const Mat<T, 2, 3>& r) const noexcept {
+            return Mat<T, 2, 3>{
+                    _Stg[0][0]*r(0, 0)+_Stg[0][1]*r(1, 0),
+                    _Stg[0][0]*r(0, 1)+_Stg[0][1]*r(1, 1),
+                    _Stg[0][0]*r(0, 2)+_Stg[0][1]*r(1, 2),
+                    _Stg[1][0]*r(0, 0)+_Stg[1][1]*r(1, 0),
+                    _Stg[1][0]*r(0, 1)+_Stg[1][1]*r(1, 1),
+                    _Stg[1][0]*r(0, 2)+_Stg[1][1]*r(1, 2)
+            };
+        }
+        constexpr auto operator*(const Mat<T, 2, 4>& r) const noexcept {
+            return Mat<T, 2, 4>{
+                    _Stg[0][0]*r(0, 0)+_Stg[0][1]*r(1, 0),
+                    _Stg[0][0]*r(0, 1)+_Stg[0][1]*r(1, 1),
+                    _Stg[0][0]*r(0, 2)+_Stg[0][1]*r(1, 2),
+                    _Stg[0][0]*r(0, 3)+_Stg[0][1]*r(1, 3),
+                    _Stg[1][0]*r(0, 0)+_Stg[1][1]*r(1, 0),
+                    _Stg[1][0]*r(0, 1)+_Stg[1][1]*r(1, 1),
+                    _Stg[1][0]*r(0, 2)+_Stg[1][1]*r(1, 2),
+                    _Stg[1][0]*r(0, 3)+_Stg[1][1]*r(1, 3)
+            };
+        }
+        template <int Cr, class = std::enable_if_t<(Cr > 4)>>
+        constexpr auto operator*(const Mat<T, 2, Cr>& r) const noexcept {
+            Mat<T, 2, Cr> ret{};
+            for (auto j = 0u; j<Cr; ++j) {
+                ret(0, j) += _Stg[0][0]*r(0, j)+_Stg[0][1]*r(1, j);
+                ret(1, j) += _Stg[1][0]*r(0, j)+_Stg[1][1]*r(1, j);
+            }
+            return ret;
+        }
+        Mat& operator*=(const Mat& r) noexcept { return (*this = *this*r); }
     private:
         RowType _Stg[2];
     };
