@@ -11,8 +11,8 @@ namespace Math {
         using ColType = Vec3<T>;
 
         constexpr Mat() = default;
-        template <class Q, class W>
-        constexpr Mat(const Vec4<Q>& m1, const Vec4<Q>& m2, const Vec4<W>& m3) noexcept
+        template <class Q, class W, class E>
+        constexpr Mat(const Vec4<Q>& m1, const Vec4<W>& m2, const Vec4<E>& m3) noexcept
                 : _Stg{RowType(m1), RowType(m2), RowType(m3)} { }
         template <class Q, class W, class E, class R,
                   class A, class S, class D, class F,
@@ -41,14 +41,14 @@ namespace Math {
             _Stg[2] -= r[2];
             return *this;
         }
-        template <class U>
+        template <class U, class = EnableIfNotVectorOrMatrix<U>>
         Mat& operator*=(const U& r) noexcept {
             _Stg[0] *= r;
             _Stg[1] *= r;
             _Stg[2] *= r;
             return *this;
         }
-        template <class U>
+        template <class U, class = EnableIfNotVectorOrMatrix<U>>
         Mat& operator/=(const U& r) noexcept {
             _Stg[0] /= r;
             _Stg[1] /= r;
@@ -58,9 +58,9 @@ namespace Math {
         constexpr Mat operator-() const noexcept { return {-_Stg[0], -_Stg[1], -_Stg[2]}; }
         constexpr Mat operator+(const Mat& r) const noexcept { return {_Stg[0]+r[0], _Stg[1]+r[1], _Stg[2]+r[2]}; }
         constexpr Mat operator-(const Mat& r) const noexcept { return {_Stg[0]-r[0], _Stg[1]-r[1], _Stg[2]-r[2]}; }
-        template <class U>
+        template <class U, class = EnableIfNotVectorOrMatrix<U>>
         constexpr Mat operator*(const U& r) const noexcept { return {_Stg[0]*r, _Stg[1]*r, _Stg[2]*r}; }
-        template <class U>
+        template <class U, class = EnableIfNotVectorOrMatrix<U>>
         constexpr Mat operator/(const U& r) const noexcept { return {_Stg[0]/r, _Stg[1]/r, _Stg[2]/r}; }
         constexpr auto operator*(const Mat<T, 4, 2>& r) const noexcept {
             return Mat<T, 3, 2> {

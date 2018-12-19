@@ -33,13 +33,13 @@ namespace Math {
             _Stg[1] -= r[1];
             return *this;
         }
-        template <class U>
+        template <class U, class = EnableIfNotVectorOrMatrix<U>>
         Mat& operator*=(const U& r) noexcept {
             _Stg[0] *= r;
             _Stg[1] *= r;
             return *this;
         }
-        template <class U>
+        template <class U, class = EnableIfNotVectorOrMatrix<U>>
         Mat& operator/=(const U& r) noexcept {
             _Stg[0] /= r;
             _Stg[1] /= r;
@@ -48,9 +48,9 @@ namespace Math {
         constexpr Mat operator-() const noexcept { return {-_Stg[0], -_Stg[1]}; }
         constexpr Mat operator+(const Mat& r) const noexcept { return {_Stg[0]+r[0], _Stg[1]+r[1]}; }
         constexpr Mat operator-(const Mat& r) const noexcept { return {_Stg[0]-r[0], _Stg[1]-r[1]}; }
-        template <class U>
+        template <class U, class = EnableIfNotVectorOrMatrix<U>>
         constexpr Mat operator*(const U& r) const noexcept { return {_Stg[0]*r, _Stg[1]*r}; }
-        template <class U>
+        template <class U, class = EnableIfNotVectorOrMatrix<U>>
         constexpr Mat operator/(const U& r) const noexcept { return {_Stg[0]/r, _Stg[1]/r}; }
         constexpr Mat operator*(const Mat& r) const noexcept {
             return {
