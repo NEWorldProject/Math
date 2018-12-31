@@ -138,6 +138,13 @@ namespace Math {
     };
 
     template <class T>
+    constexpr auto operator*(const Vec<4, T>& l, const Mat<T, 4, 3>& r) noexcept {
+        return Vec<3, T> {l.X*r(0, 0) + l.Y*r(1, 0) + l.Z*r(2, 0) + l.Z*r(3, 0),
+                l.X*r(0, 1) + l.Y*r(1, 1) + l.Z*r(2, 1) + l.Z*r(3, 1),
+                l.X*r(0, 2) + l.Y*r(1, 2) + l.Z*r(2, 2) + l.Z*r(3, 2)};
+    }
+
+    template <class T>
     using Mat43 = Mat<T, 4, 3>;
     using Mat43I = Mat43<int>;
     using Mat43B = Mat43<int8_t>;
