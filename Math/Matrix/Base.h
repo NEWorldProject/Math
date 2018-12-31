@@ -47,4 +47,37 @@ namespace Math {
         return ret;
     }
 
+    template <class T, int R, int C>
+    constexpr auto operator*(const Mat<T, R, C>& l, const Vec<C, T>& r) noexcept {
+        Vec<R, T> ret{};
+        for (auto i = 0u; i<R; ++i)
+            for (auto k = 0u; k<C; ++k)
+                ret.Data[i] += l(i, k)*r.Data[k];
+        return ret;
+    }
+
+    template <class T, int R>
+    constexpr auto operator*(const Mat<T, R, 2>& l, const Vec<2, T>& r) noexcept {
+        Vec<R, T> ret{VectorUninitialized};
+        for (auto i = 0u; i<R; ++i)
+            ret.Data[i] = l(i, 0)*r.Data[0] + l(i, 1)*r.Data[1];
+        return ret;
+    }
+
+    template <class T, int R>
+    constexpr auto operator*(const Mat<T, R, 3>& l, const Vec<3, T>& r) noexcept {
+        Vec<R, T> ret{VectorUninitialized};
+        for (auto i = 0u; i<R; ++i)
+            ret.Data[i] = l(i, 0)*r.Data[0] + l(i, 1)*r.Data[1] + l(i, 2)*r.Data[2];
+        return ret;
+    }
+
+    template <class T, int R>
+    constexpr auto operator*(const Mat<T, R, 4>& l, const Vec<4, T>& r) noexcept {
+        Vec<R, T> ret{VectorUninitialized};
+        for (auto i = 0u; i<R; ++i)
+            ret.Data[i] = l(i, 0)*r.Data[0] + l(i, 1)*r.Data[1] + l(i, 2)*r.Data[2] + l(i, 3)*r.Data[3];
+        return ret;
+    }
+
 }

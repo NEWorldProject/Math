@@ -93,6 +93,10 @@ namespace Math {
             return ret;
         }
         Mat& operator*=(const Mat<T, 3, 3>& r) noexcept { return (*this = *this*r); }
+        constexpr auto operator*(const Vec<3, T>& r) noexcept {
+            return Vec<2, T>{_Stg[0][0]*r.Data[0]+_Stg[0][1]*r.Data[1]+_Stg[0][2]*r.Data[2],
+                    _Stg[1][0]*r.Data[0]+_Stg[1][1]*r.Data[1]+_Stg[1][2]*r.Data[2]};
+        }
     private:
         RowType _Stg[2];
     };

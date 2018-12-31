@@ -83,6 +83,14 @@ namespace Math {
             return ret;
         }
 
+        constexpr auto operator*(const Vec<C, T>& op) const noexcept {
+            Vec<R, T> ret{};
+            for (auto i = 0u; i<R; ++i)
+                for (auto k = 0u; k<C; ++k)
+                    ret.Data[i] += (*this)(i, k)*op.Data[k];
+            return ret;
+        }
+
         Mat& operator*=(const Mat<T, C, C>& r) noexcept { return (*this = *this*r); }
     private:
         RowType _Stg[R];
