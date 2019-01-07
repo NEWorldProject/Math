@@ -115,6 +115,13 @@ namespace Math {
                     _Stg[1][0]*r.Data[0]+_Stg[1][1]*r.Data[1]+_Stg[1][2]*r.Data[2],
                     _Stg[2][0]*r.Data[0]+_Stg[2][1]*r.Data[1]+_Stg[2][2]*r.Data[2]};
         }
+        constexpr static Mat Identity() noexcept {
+            return {
+                    1.0, 0.0, 0.0,
+                    0.0, 1.0, 0.0,
+                    0.0, 0.0, 1.0
+            };
+        }
     private:
         RowType _Stg[3];
     };

@@ -92,6 +92,13 @@ namespace Math {
         }
 
         Mat& operator*=(const Mat<T, C, C>& r) noexcept { return (*this = *this*r); }
+
+        template <class = std::enable_if<(R == C)>>
+        constexpr static Mat Identity() noexcept {
+            Mat ret {};
+            for (auto i = 0u; i < R; ++i) ret[i][i] = static_cast<T>(1.0);
+            return ret;
+        }
     private:
         RowType _Stg[R];
     };

@@ -96,6 +96,12 @@ namespace Math {
             return Vec2<T>(_Stg[0][0]*r.X+_Stg[0][1]*r.Y, _Stg[1][0]*r.X+_Stg[1][1]*r.Y);
         }
         Mat& operator*=(const Mat& r) noexcept { return (*this = *this*r); }
+        constexpr static Mat Identity() noexcept {
+            return {
+                    1.0, 0.0,
+                    0.0, 1.0
+            };
+        }
     private:
         RowType _Stg[2];
     };
