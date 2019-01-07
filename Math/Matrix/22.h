@@ -16,7 +16,8 @@ namespace Math {
                 : _Stg{RowType(m1), RowType(m2)} { }
         template <class Q, class W, class E, class R>
         constexpr Mat(Q&& m11, W&& m12, E&& m21, R&& m22) noexcept
-                :_Stg{{std::forward<Q>(m11), std::forward<W>(m12)}, {std::forward<E>(m21), std::forward<R>(m22)}} { }
+                :_Stg{RowType{std::forward<Q>(m11), std::forward<W>(m12)},
+                RowType{std::forward<E>(m21), std::forward<R>(m22)}} { }
 
         RowType& operator[](int idx) noexcept { return _Stg[idx]; }
         const RowType& operator[](int idx) const noexcept { return _Stg[idx]; }
@@ -82,7 +83,7 @@ namespace Math {
                     _Stg[1][0]*r(0, 3)+_Stg[1][1]*r(1, 3)
             };
         }
-        template <int Cr, class = std::enable_if_t<(Cr > 4)>>
+        template <int Cr, class = std::enable_if_t<(Cr>4)>>
         constexpr auto operator*(const Mat<T, 2, Cr>& r) const noexcept {
             Mat<T, 2, Cr> ret{};
             for (auto j = 0u; j<Cr; ++j) {
@@ -91,7 +92,7 @@ namespace Math {
             }
             return ret;
         }
-        constexpr auto operator *(const Vec2<T>& r) const noexcept {
+        constexpr auto operator*(const Vec2<T>& r) const noexcept {
             return Vec2<T>(_Stg[0][0]*r.X+_Stg[0][1]*r.Y, _Stg[1][0]*r.X+_Stg[1][1]*r.Y);
         }
         Mat& operator*=(const Mat& r) noexcept { return (*this = *this*r); }
@@ -101,7 +102,7 @@ namespace Math {
 
     template <class T>
     constexpr auto operator*(const Vec<2, T>& l, const Mat<T, 2, 2>& r) noexcept {
-        return Vec<2, T> {l.X*r(0, 0) + l.Y*r(1, 0), l.X*r(0, 1) + l.Y*r(1, 1)};
+        return Vec<2, T>{l.X*r(0, 0)+l.Y*r(1, 0), l.X*r(0, 1)+l.Y*r(1, 1)};
     }
 
     template <class T>

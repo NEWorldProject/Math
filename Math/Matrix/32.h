@@ -18,9 +18,9 @@ namespace Math {
         constexpr Mat(Q&& m11, W&& m12,
                 A&& m21, S&& m22,
                 Z&& m31, X&& m32) noexcept
-                :_Stg{{std::forward<Q>(m11), std::forward<W>(m12)},
-                {std::forward<A>(m21), std::forward<S>(m22)},
-                {std::forward<Z>(m31), std::forward<X>(m32)}} { }
+                :_Stg{RowType{std::forward<Q>(m11), std::forward<W>(m12)},
+                RowType{std::forward<A>(m21), std::forward<S>(m22)},
+                RowType{std::forward<Z>(m31), std::forward<X>(m32)}} { }
 
         RowType& operator[](int idx) noexcept { return _Stg[idx]; }
         const RowType& operator[](int idx) const noexcept { return _Stg[idx]; }

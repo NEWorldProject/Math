@@ -21,11 +21,11 @@ namespace Math {
         constexpr Mat(Q&& m11, W&& m12, E&& m13, R&& m14,
                 A&& m21, S&& m22, D&& m23, F&& m24,
                 Z&& m31, X&& m32, C&& m33, V&& m34,
-                T&& m41, Y&& m42, I&& m43, O&& m44) noexcept
-                :_Stg{{std::forward<Q>(m11), std::forward<W>(m12), std::forward<E>(m13), std::forward<R>(m14)},
-                {std::forward<A>(m21), std::forward<S>(m22), std::forward<D>(m23), std::forward<F>(m24)},
-                {std::forward<Z>(m31), std::forward<X>(m32), std::forward<C>(m33), std::forward<V>(m34)},
-                {std::forward<Y>(m41), std::forward<U>(m42), std::forward<I>(m43), std::forward<O>(m44)}} { }
+                Y&& m41, U&& m42, I&& m43, O&& m44) noexcept
+                :_Stg{RowType{std::forward<Q>(m11), std::forward<W>(m12), std::forward<E>(m13), std::forward<R>(m14)},
+                RowType{std::forward<A>(m21), std::forward<S>(m22), std::forward<D>(m23), std::forward<F>(m24)},
+                RowType{std::forward<Z>(m31), std::forward<X>(m32), std::forward<C>(m33), std::forward<V>(m34)},
+                RowType{std::forward<Y>(m41), std::forward<U>(m42), std::forward<I>(m43), std::forward<O>(m44)}} { }
 
         RowType& operator[](int idx) noexcept { return _Stg[idx]; }
         const RowType& operator[](int idx) const noexcept { return _Stg[idx]; }
@@ -144,11 +144,11 @@ namespace Math {
     };
 
     template <class T>
-    constexpr auto operator*(const Vec<4, T>& l, const Mat<T, 4, 3>& r) noexcept {
-        return Vec<4, T> {l.X*r(0, 0) + l.Y*r(1, 0) + l.Z*r(2, 0) + l.Z*r(3, 0),
-                l.X*r(0, 1) + l.Y*r(1, 1) + l.Z*r(2, 1) + l.Z*r(3, 1),
-                l.X*r(0, 2) + l.Y*r(1, 2) + l.Z*r(2, 2) + l.Z*r(3, 2),
-                l.X*r(0, 3) + l.Y*r(1, 3) + l.Z*r(2, 3) + l.Z*r(3, 3)};
+    constexpr auto operator*(const Vec<4, T>& l, const Mat<T, 4, 4>& r) noexcept {
+        return Vec<4, T> {l.X*r(0, 0) + l.Y*r(1, 0) + l.Z*r(2, 0) + l.T*r(3, 0),
+                l.X*r(0, 1) + l.Y*r(1, 1) + l.Z*r(2, 1) + l.T*r(3, 1),
+                l.X*r(0, 2) + l.Y*r(1, 2) + l.Z*r(2, 2) + l.T*r(3, 2),
+                l.X*r(0, 3) + l.Y*r(1, 3) + l.Z*r(2, 3) + l.T*r(3, 3)};
     }
 
     template <class T>

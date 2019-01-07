@@ -9,21 +9,30 @@ namespace Math {
         struct {
             V X, Y, Z, T;
         };
-        constexpr Vec() noexcept: Data{T(0), T(0), T(0), T(0)} {}
-        constexpr explicit Vec(VectorUninitializedT) noexcept : Data{} {}
-        template <class ...U>
-        constexpr explicit Vec(U&& ... args) noexcept
-                :Data{static_cast<V>(std::forward<U>(args))...} { }
+        constexpr Vec() noexcept
+                :Data{V(0), V(0), V(0), V(0)} { }
+        constexpr Vec(Vec&&) noexcept = default;
+        constexpr Vec(const Vec&) noexcept = default;
+        Vec& operator=(Vec&&) noexcept = default;
+        Vec& operator=(const Vec&) noexcept = default;
+        constexpr explicit Vec(VectorUninitializedT) noexcept
+                :Data{} { }
+        template <class Q, class W, class ...U>
+        constexpr explicit Vec(Q&& arg0, W&& arg1, U&& ... args) noexcept
+                :Data{static_cast<V>(std::forward<Q>(arg0)), static_cast<V>(std::forward<W>(arg1)),
+                static_cast<V>(std::forward<U>(args))...} { }
         template <class U, class = std::enable_if_t<std::is_convertible_v<U, V>>>
         constexpr explicit Vec(const Vec<4, U>& r) noexcept
                 :X(r.X), Y(r.Y), Z(r.Z), T(r.T) { }
         constexpr Vec operator-() const noexcept { return Vec(-X, -Y, -Z, -T); }
         constexpr Vec operator+(const Vec& r) const noexcept { return Vec(X+r.X, Y+r.Y, Z+r.Z, T+r.T); }
         constexpr Vec operator-(const Vec& r) const noexcept { return Vec(X-r.X, Y-r.Y, Z-r.Z); }
-        template <class U>
+        template <class U, class = EnableIfNotVectorOrMatrix<U>>
         constexpr Vec operator*(const U& r) const noexcept { return Vec(X*r, Y*r, Z*r, T*r); }
         template <class U>
         constexpr Vec operator/(const U& r) const noexcept { return Vec(X/r, Y/r, Z/r, T/r); }
+        constexpr auto& operator[](size_t index) noexcept { return Data[index]; }
+        constexpr auto& operator[](size_t index) const noexcept { return Data[index]; }
         Vec& operator+=(const Vec& r) noexcept {
             X += r.X;
             Y += r.Y;
@@ -38,7 +47,7 @@ namespace Math {
             T -= r.T;
             return *this;
         }
-        template <class U>
+        template <class U, class = EnableIfNotVectorOrMatrix<U>>
         Vec& operator*=(const U& r) noexcept {
             X *= r;
             Y *= r;

@@ -17,8 +17,8 @@ namespace Math {
         template <class Q, class W, class E, class R, class A, class S, class D, class F>
         constexpr Mat(Q&& m11, W&& m12, E&& m13, R&& m14,
                 A&& m21, S&& m22, D&& m23, F&& m24) noexcept
-                :_Stg{{std::forward<Q>(m11), std::forward<W>(m12), std::forward<E>(m13), std::forward<R>(m14)},
-                        {std::forward<A>(m21), std::forward<S>(m22), std::forward<D>(m23), std::forward<F>(m24)}} { }
+                :_Stg{RowType{std::forward<Q>(m11), std::forward<W>(m12), std::forward<E>(m13), std::forward<R>(m14)},
+                RowType{std::forward<A>(m21), std::forward<S>(m22), std::forward<D>(m23), std::forward<F>(m24)}} { }
 
         RowType& operator[](int idx) noexcept { return _Stg[idx]; }
         const RowType& operator[](int idx) const noexcept { return _Stg[idx]; }
@@ -117,5 +117,5 @@ namespace Math {
     using Mat24LL = Mat24<int64_t>;
     using Mat24F = Mat24<float>;
     using Mat24D = Mat24<double>;
-    using Mat2ED = Mat24<long double>;
+    using Mat24ED = Mat24<long double>;
 }

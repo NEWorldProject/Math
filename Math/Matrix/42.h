@@ -19,10 +19,10 @@ namespace Math {
                 A&& m21, S&& m22,
                 Z&& m31, X&& m32,
                 Y&& m41, U&& m42) noexcept
-                :_Stg{{std::forward<Q>(m11), std::forward<W>(m12)},
-                {std::forward<A>(m21), std::forward<S>(m22)},
-                {std::forward<Z>(m31), std::forward<X>(m32)},
-                {std::forward<Y>(m41), std::forward<U>(m42)}} { }
+                :_Stg{RowType{std::forward<Q>(m11), std::forward<W>(m12)},
+                RowType{std::forward<A>(m21), std::forward<S>(m22)},
+                RowType{std::forward<Z>(m31), std::forward<X>(m32)},
+                RowType{std::forward<Y>(m41), std::forward<U>(m42)}} { }
 
         RowType& operator[](int idx) noexcept { return _Stg[idx]; }
         const RowType& operator[](int idx) const noexcept { return _Stg[idx]; }
@@ -139,8 +139,8 @@ namespace Math {
 
     template <class T>
     constexpr auto operator*(const Vec<4, T>& l, const Mat<T, 4, 2>& r) noexcept {
-        return Vec<2, T> {l.X*r(0, 0) + l.Y*r(1, 0) + l.Z*r(2, 0) + l.Z*r(3, 0),
-                l.X*r(0, 1) + l.Y*r(1, 1) + l.Z*r(2, 1) + l.Z*r(3, 1)};
+        return Vec<2, T> {l.X*r(0, 0) + l.Y*r(1, 0) + l.Z*r(2, 0) + l.T*r(3, 0),
+                l.X*r(0, 1) + l.Y*r(1, 1) + l.Z*r(2, 1) + l.T*r(3, 1)};
     }
 
     template <class T>
