@@ -3,7 +3,6 @@
 #include "../Vector.h"
 
 namespace Math {
-
     template <class T, int C, int Cr, class = std::enable_if_t<(C > 4)>>
     constexpr auto operator*(const Vec<C, T>& l, const Mat<T, C, Cr>& r) noexcept {
         Vec<Cr, T> ret{};

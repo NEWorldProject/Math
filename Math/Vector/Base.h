@@ -17,7 +17,9 @@ namespace Math {
     template <class T>
     using EnableIfNotVectorOrMatrix = std::enable_if_t<IsNotVectorOrMatrix<T>::value>;
 
-    struct VectorUninitializedT{} VectorUninitialized;
+    struct VectorUninitializedT{};
+
+    constexpr VectorUninitializedT VectorUninitialized = {};
 
     template <size_t D, class T>
     constexpr bool operator<(const Vec<D, T>& l, const Vec<D, T>& r) noexcept { return r.LengthSqr()<r.LengthSqr(); }
