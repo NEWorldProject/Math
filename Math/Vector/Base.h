@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <cstdint>
 #include <cstddef>
 #include <utility>
 #include <type_traits>
